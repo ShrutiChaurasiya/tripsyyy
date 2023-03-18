@@ -25,62 +25,38 @@ class Options:
         # print("connected")
     
     def login(self):
-        s=1
-        while s<4:
             self.username=input("\n\nEnter your registered Email id as Username : \t")
-            self.data=(self.username,)
-            query='''SELECT email from signup WHERE email=%s'''
-            self.cursor.execute(query,self.data)
+            self.password=input("\n\nEnter Your Password : \t")
+            self.datalog=(self.username,self.password)
+            query1='''SELECT email,passwd from signup WHERE email=%s and passwd=%s'''
+            self.cursor.execute(query1,self.datalog)
+            count=0
             for i in self.cursor:
-                self.username=i[0]
-                # break
-                # print(i[0])
-                if self.username==i[0]:
-                    self.password=input("\n\nEnter Your Password : \t")
-                    break
-                else:
-                    print("\n\nInvalid Username.")
-                    if s==3:
-                        print("Too many attempts.")
-                        exit()
-                    s+=1
-
-            p=1
-            while p<4:
-                # self.password=input("\n\nEnter Your Password : \t")
-                query1='''SELECT passwd from signup WHERE email=%s'''
-                self.cursor.execute(query1,self.data)
-                for j in self.cursor:
-                    self.password=j[0]
-                    # break
-                    # print(j[0])
-                    if self.password==j[0]:
-                        print("\n\nLog In Successful.")
-                        break
-                    else:
-                        ("\n\nInvalid Credentials. ")
-                        if p==3:
-                            print("Too many attempts.")
-                            exit()
-                        p+=1
-                        
-            while True:
-                print(''' 
+                if i==self.datalog:
+                    count+=1
+                
+            if count==1:
+                print("\n\nLog In Successful.")
+                while True:
+                    print(''' 
 >1. View Ticket.
 >2. Book Ticket.
 >3. Payment Page.
 >4. Back. ''')      
-                inpopts=input("Enter Choice: \t")
-                if inpopts=="4":
-                    obj.selection()
-                elif inpopts=="2":
-                    obj.Book()
-                elif inpopts=="3":
-                    obj.payment()
-                elif inpopts=="1":
-                    obj.viewtickets()
+                    inpopts=input("Enter Choice: \t")
+                    if inpopts=="4":
+                            obj.selection()
+                    elif inpopts=="2":
+                            obj.Book()
+                    elif inpopts=="3":
+                            obj.payment()
+                    elif inpopts=="1":
+                            obj.viewtickets()
 
-                    
+            else:
+                print("\n\nInvalid Credentials.")
+                obj.selection()
+        
             
 
 
